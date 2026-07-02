@@ -64,7 +64,7 @@ Song Spec (JSON)
 
 ## Selected Challenge Theme / Track
 
-> **[PLACEHOLDER — Fill in the specific AI Builders Challenge track or theme this submission is entered under]**
+> **July Challenge: Reimagine Creative Industries with AI**
 
 ---
 
