@@ -34,7 +34,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-*.png
-
-# Screenshots (added separately to public/)
+# Exclude stray dev screenshots in app/ — but allow public/screenshots/ to be committed
 app/**/*.png

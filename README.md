@@ -162,16 +162,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Screenshots
 
-> _Screenshots will be added to the `/public/screenshots/` directory._
-
 ### Home Page
-![Home Page](./public/screenshots/home.png)
+![Home Page — Cadence mood input with prompt suggestions](./public/screenshots/home.png)
 
 ### Describe Your Mood
-![Describe Your Mood](./public/screenshots/create.png)
+![Describe Your Mood — genre palette, tempo and energy sliders](./public/screenshots/create.png)
 
 ### Your Generated Song
-![Song Player](./public/screenshots/player.png)
+![Song Player — waveform visualizer, playback controls, AI Copilot panel](./public/screenshots/player.png)
 
 ---
 
