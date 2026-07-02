@@ -2,26 +2,284 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  NOTE: Google Fonts (Space Grotesk, Inter, Material Symbols) are loaded via
+  <link> tags in app/layout.tsx — NOT here. @import rules placed after
+  @tailwind directives are silently dropped by PostCSS/Next.js.
+*/
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0b1326;
+  color: #dae2fd;
+  /* Reference the CSS variables injected by next/font/google */
+  font-family: var(--font-inter, 'Inter', sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Material Symbols Outlined ────────────────────────────────────────────── */
+/*
+  The font-face itself comes from the Google Fonts <link> in layout.tsx.
+  This block sets the correct rendering properties so every
+  <span class="material-symbols-outlined"> shows the icon glyph,
+  not raw ligature text.
+*/
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;          /* default icon size */
+  line-height: 1;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  letter-spacing: normal;   /* critical: prevents ligature text from spacing out */
+  text-transform: none;     /* critical: prevents uppercase transforms breaking ligatures */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  user-select: none;
+}
+
+/* ── Ambient background glow ─────────────────────────────────────────────── */
+.ambient-bg {
+  background:
+    radial-gradient(circle at 50% 0%,  rgba(221, 183, 255, 0.15) 0%, rgba(11, 19, 38, 0) 70%),
+    radial-gradient(circle at 100% 50%, rgba(79,  219, 200, 0.10) 0%, rgba(11, 19, 38, 0) 50%);
+}
+
+/* ── Glass surface ────────────────────────────────────────────────────────── */
+.glass {
+  background: rgba(23, 31, 51, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Gradient text ────────────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(90deg, #ddb7ff 0%, #4fdbc8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* fallback */
+}
+
+/* ── Primary gradient button ──────────────────────────────────────────────── */
+.btn-gradient {
+  background: linear-gradient(90deg, #ddb7ff 0%, #4fdbc8 100%);
+  color: #1a0030;
+  font-family: var(--font-space-grotesk, 'Space Grotesk', sans-serif);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.btn-gradient:hover:not(:disabled) {
+  box-shadow: 0 0 30px rgba(221, 183, 255, 0.5);
+}
+
+.btn-gradient:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ── Text selection ───────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(221, 183, 255, 0.3);
+  color: #ddb7ff;
+}
+
+/* ── Spin keyframe for inline-style spinner ──────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Gradient shift for CTA button border ────────────────────────────────── */
+@keyframes cadence-gradient-shift {
+  0%   { background-position: 0%   center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── Ambient blob pulse ───────────────────────────────────────────────────── */
+@keyframes cadence-pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(1.08); }
+}
+
+.ambient-blob-1 {
+  animation: cadence-pulse-slow 8s infinite ease-in-out;
+}
+.ambient-blob-2 {
+  animation: cadence-pulse-slow 12s infinite ease-in-out reverse;
+}
+
+/* ── Custom range slider — Cadence design ─────────────────────────────────── */
+.cadence-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(218, 226, 253, 0.15);
+  outline: none;
+  cursor: pointer;
+}
+
+.cadence-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #4fdbc8;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(79, 219, 200, 0.75);
+  margin-top: -8px;
+  transition: box-shadow 0.15s ease;
+}
+
+.cadence-range::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 16px rgba(79, 219, 200, 1);
+}
+
+.cadence-range::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #4fdbc8;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(79, 219, 200, 0.75);
+}
+
+.cadence-range::-webkit-slider-runnable-track {
+  height: 4px;
+  cursor: pointer;
+  background: rgba(218, 226, 253, 0.15);
+  border-radius: 2px;
+}
+
+.cadence-range::-moz-range-track {
+  height: 4px;
+  cursor: pointer;
+  background: rgba(218, 226, 253, 0.15);
+  border-radius: 2px;
+}
+
+/* ── Input placeholder color in hero pill ─────────────────────────────────── */
+input::placeholder,
+textarea::placeholder {
+  color: rgba(153, 141, 159, 0.55);
+}
+
+/* ── Animations from Stitch Designs ──────────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes waveform {
+  0%, 100% { transform: scaleY(0.2); opacity: 0.5; }
+  50%      { transform: scaleY(1); opacity: 1; }
+}
+
+.bar {
+  animation: waveform 1.2s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.bar:nth-child(1) { animation-delay: 0.1s; }
+.bar:nth-child(2) { animation-delay: 0.3s; }
+.bar:nth-child(3) { animation-delay: 0.0s; }
+.bar:nth-child(4) { animation-delay: 0.4s; }
+.bar:nth-child(5) { animation-delay: 0.2s; }
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.ambient-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* Desktop waveform bar */
+.desktop-waveform-bar {
+  width: 4px;
+  background-color: #4fdbc8;
+  border-radius: 2px;
+  transition: height 0.1s ease, background-color 0.3s ease;
+}
+.desktop-waveform-bar.peak {
+  background-color: #ddb7ff;
+  box-shadow: 0 0 10px rgba(221,183,255,0.6);
+}
+
+/* Mobile waveform bar */
+.mobile-waveform-bar {
+  width: 4px;
+  background: linear-gradient(to top, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%);
+  border-radius: 9999px;
+  transform-origin: bottom;
+}
+
+@keyframes pulse-height {
+  0% { transform: scaleY(0.2); opacity: 0.5; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+.animate-pulse-height {
+  animation: pulse-height 1.2s ease-in-out infinite alternate;
+}
+
+/* Custom scrollbar for version strip */
+.version-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.version-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.version-scroll::-webkit-scrollbar-thumb {
+  background: #4d4354;
+  border-radius: 9999px;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Utility to force Space Grotesk from the CSS variable */
+  .font-space {
+    font-family: var(--font-space-grotesk, 'Space Grotesk', sans-serif);
+  }
 }
+
